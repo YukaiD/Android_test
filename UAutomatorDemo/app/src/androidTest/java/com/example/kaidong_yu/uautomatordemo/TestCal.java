@@ -19,7 +19,7 @@ import static android.os.SystemClock.sleep;
 
 
 @RunWith(AndroidJUnit4.class)
-public class Hello {
+public class TestCal {
 
     // Instrumentation可以在主程序启动之前，创建模拟的Context；发送UI事件给应用程序；
     // 检查程序当前运行状态；控制Android如何加载应用程序，控制应用程序和控件的生命周期;
