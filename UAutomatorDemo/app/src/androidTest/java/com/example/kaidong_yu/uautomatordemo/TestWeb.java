@@ -30,6 +30,7 @@ public class TestWeb {
 
     @Test
     public void webTest(){
+
         UiObject chrome = uiDevice.findObject(new UiSelector().text("Chrome"));
         UiObject searchContent = uiDevice.findObject(new UiSelector().text("Search or type web address"));
 
