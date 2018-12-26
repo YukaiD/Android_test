@@ -53,7 +53,9 @@ public class TestVir {
 
     @Test
     public void testScan() throws UiObjectNotFoundException {
-        UiObject playStore = uiDevice.findObject(new UiSelector().text("Play Store"));
+        String virus = "Test Virus";
+        String storeName = "Play Store";
+        UiObject playStore = uiDevice.findObject(new UiSelector().text(storeName));
         UiObject searchAp = uiDevice.findObject(new UiSelector().text("Search Google Play"));
         //search testvirus on play store
         try {
@@ -74,7 +76,7 @@ public class TestVir {
         }
         searchAp.setText("Test Virus");
         uiDevice.pressKeyCode(KeyEvent.KEYCODE_ENTER);
-        UiObject testVirus = uiDevice.findObject(new UiSelector().text("Test Virus"));
+        UiObject testVirus = uiDevice.findObject(new UiSelector().text(virus));
         UiObject install = uiDevice.findObject(new UiSelector().text("INSTALL"));
         UiObject accept = uiDevice.findObject(new UiSelector().text("ACCEPT"));
 

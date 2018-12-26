@@ -28,18 +28,18 @@ public class TestChrome {
     }
 
     @Test
-    public void launchChrome(){
+    public void launchChrome()  {
         UiObject chrome = uiDevice.findObject(new UiSelector().text("Chrome"));
         UiObject searchContent = uiDevice.findObject(new UiSelector().text("Search or type web address"));
 
         try {
-            chrome.click();
-            sleep(2000);
+            chrome.clickAndWaitForNewWindow();
             searchContent.setText("www.baidu.com");
             uiDevice.pressKeyCode(KeyEvent.KEYCODE_ENTER);
-        } catch (UiObjectNotFoundException e) {
+        }catch (UiObjectNotFoundException e){
             e.printStackTrace();
         }
+
 
     }
 
