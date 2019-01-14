@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">SlientInstallTest</string>
+    <string name="desc">智能安装app功能演示</string>
+</resources>

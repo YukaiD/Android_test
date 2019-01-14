@@ -10,13 +10,12 @@ import android.content.pm.ResolveInfo;
 import android.net.Uri;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
-import android.support.test.uiautomator.By;
 import android.support.test.uiautomator.UiDevice;
 import android.support.test.uiautomator.UiObject;
 
 import android.support.test.uiautomator.UiObjectNotFoundException;
 import android.support.test.uiautomator.UiSelector;
-import android.support.test.uiautomator.Until;
+
 
 
 import org.junit.Before;
@@ -25,22 +24,18 @@ import org.junit.runner.RunWith;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.regex.Pattern;
 
 import static junit.framework.TestCase.assertFalse;
 
 
 @RunWith(AndroidJUnit4.class)
-public class Testv {
+public class TestPermission {
 
     UiDevice uiDevice;
-
     // Instrumentation可以在主程序启动之前，创建模拟的Context；发送UI事件给应用程序；
     // 检查程序当前运行状态；控制Android如何加载应用程序，控制应用程序和控件的生命周期;
     // 可以直接调用控件的方法，对控件的属性进行查看和修改
     Instrumentation instrumentation;
-
-
     Context context;
 
     // 测试用例执行前，用于一些处理一些初始化工作
@@ -52,36 +47,23 @@ public class Testv {
     }
 
     @Test
-    public void testScan() throws UiObjectNotFoundException {
+    public void testOverlay() throws UiObjectNotFoundException {
         String safetyPackageName = "com.trendmicro.freetmms.gmobi";
-        String virusPackageName = "com.androidantivirus.testvirus";
-//        String[] hintKeywordArray = new String[]{"INSTALL","安装"};
-//        for (String word : hintKeywordArray){
-//            UiObject install = uiDevice.findObject(new UiSelector().textContains(word));
-//
-//        }
-        UiObject install = uiDevice.findObject(new UiSelector().textContains("INSTALL"));
-        UiObject accept = uiDevice.findObject(new UiSelector().text("ACCEPT"));
+
         UiObject Scan_first = uiDevice.findObject(new UiSelector().resourceId(safetyPackageName.concat(":id/tv_clean")));
         UiObject Scan_second = uiDevice.findObject(new UiSelector().resourceId(safetyPackageName.concat(":id/card_title_end")));
         UiObject Scan_third = uiDevice.findObject(new UiSelector().resourceId(safetyPackageName.concat(":id/btn_remove")));
         UiObject Scan_forth = uiDevice.findObject(new UiSelector().resourceId("android:id/button1"));
 
 
-        //install testvirus
-        showMarket(context);
-        install.clickAndWaitForNewWindow();
-        accept.clickAndWaitForNewWindow();
+
 
         //start Dr.Safety and search virus
-        startAPP(context,safetyPackageName);
-        Scan_first.clickAndWaitForNewWindow();
-        Scan_second.clickAndWaitForNewWindow();
-        Scan_third.clickAndWaitForNewWindow();
-        Scan_forth.clickAndWaitForNewWindow();
+        //startAPP(context,safetyPackageName);
+        showAllowPermissionUI(context);
 
-        //check virus uninstalled
-        assertFalse(isAppInstalled(context,virusPackageName));
+
+
 
     }
 
@@ -136,32 +118,17 @@ public class Testv {
         }
     }
 
-    public static void showMarket(Context context) {
-        final String appPackageName = "com.androidantivirus.testvirus";
+    public static void showAllowPermissionUI(Context context) {
         try {
-            Intent launchIntent = context.getPackageManager().getLaunchIntentForPackage("com.android.vending");
+            Intent launchIntent = context.getPackageManager().getLaunchIntentForPackage("com.trendmicro.freetmms.gmobi");
             // package name and activity
-            ComponentName comp = new ComponentName("com.android.vending", "com.google.android.finsky.activities.LaunchUrlHandlerActivity");
+            ComponentName comp = new ComponentName("com.trendmicro.freetmms.gmobi", "com.trendmicro.freetmms.gmobi/.component.ui.permission.AllowPermissionActivity");
             launchIntent.setComponent(comp);
-            launchIntent.setData(Uri.parse("market://details?id="+appPackageName));
             context.startActivity(launchIntent);
 
         } catch (android.content.ActivityNotFoundException anfe) {
             anfe.printStackTrace();
-            context.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://play.google.com/store/apps/details?id=" + appPackageName)));
         }
-    }
-
-    public boolean isAppInstalled(Context context, String packageName) {
-        final PackageManager packageManager = context.getPackageManager();
-        List<PackageInfo> pinfo = packageManager.getInstalledPackages(0);
-        List<String> pName = new ArrayList<String>();
-        if (pinfo != null) {
-            for (int i = 0; i < pinfo.size(); i++) {
-                String pn = pinfo.get(i).packageName;
-                pName.add(pn);
-            }
-        }
-        return pName.contains(packageName);
     }
 }
+
